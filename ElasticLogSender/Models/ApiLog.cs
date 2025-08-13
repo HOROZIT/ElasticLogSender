@@ -17,6 +17,7 @@ namespace ElasticLogSender.Models
         public int StatusCode { get; set; }
         public string? RequestBody { get; set; }
         public string? ResponseBody { get; set; }
+        public string? Environment { get; set; }
         public DateTime Datetime { get; set; } = DateTime.UtcNow;
 
     }
