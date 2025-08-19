@@ -7,11 +7,14 @@ internal class Program
     {
         var builder = Host.CreateApplicationBuilder(args);
 
-        // Scoped servisler (her istekte yeni örnek)
+        builder.Services.AddWindowsService(options =>
+        {
+            options.ServiceName = "HrzElasticLogWorker";
+        });
+
         builder.Services.AddScoped<IElasticService, ElasticService>();
         builder.Services.AddScoped<ILogRepository, LogRepository>();
 
-        // Hosted service (singleton)
         builder.Services.AddHostedService<LogWorker>();
 
         var host = builder.Build();

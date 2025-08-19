@@ -11,7 +11,7 @@ namespace ElasticLogSender.Data
     // Log veri erişim arayüzü (interface)   2. İşlem
     public interface ILogRepository
     {
-        Task<IEnumerable<ApiLog>> GetRecentLogsAsync(DateTime fromTime, DbType dbType);
+        Task<IEnumerable<ApiLog>> GetRecentLogsAsync(DbType dbType);
         Task MarkLogsAsIndexedAsync(IEnumerable<int> ids, DbType dbType);
     }
 }

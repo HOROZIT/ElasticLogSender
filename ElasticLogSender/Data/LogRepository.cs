@@ -25,17 +25,16 @@ namespace ElasticLogSender.Data
             };
         }
 
-        public async Task<IEnumerable<ApiLog>> GetRecentLogsAsync(DateTime fromTime, DbType dbType)
+        public async Task<IEnumerable<ApiLog>> GetRecentLogsAsync(DbType dbType)
         {
             using var connection = new SqlConnection(GetConnectionString(dbType));
             await connection.OpenAsync();
 
             var sql = @"
             SELECT * FROM TBL_API_LOGS
-            WHERE Datetime >= @FromTime
-            AND (IsIndexed = 0)";
+            WHERE IsIndexed = 0";
 
-            var logs = await connection.QueryAsync<ApiLog>(sql, new { FromTime = fromTime });
+            var logs = await connection.QueryAsync<ApiLog>(sql);
             return logs;
         }
 

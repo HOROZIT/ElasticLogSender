@@ -25,10 +25,10 @@ public class LogWorker : BackgroundService
 
             try
             {
-                var fromTime = DateTime.UtcNow.AddMinutes(-5);
+                //var fromTime = DateTime.UtcNow.AddMinutes(-5);
 
                 // Test DB'den logları çek
-                var testLogs = (await logRepository.GetRecentLogsAsync(fromTime, DbType.Test)).ToList();
+                var testLogs = (await logRepository.GetRecentLogsAsync(DbType.Test)).ToList();
                 if (testLogs.Any())
                 {
                     await elasticService.SendLogsBulkAsync(testLogs, DbType.Test);
@@ -37,7 +37,7 @@ public class LogWorker : BackgroundService
                 }
 
                 // Canlı DB'den logları çek
-                var canliLogs = (await logRepository.GetRecentLogsAsync(fromTime, DbType.Canli)).ToList();
+                var canliLogs = (await logRepository.GetRecentLogsAsync(DbType.Canli)).ToList();
                 if (canliLogs.Any())
                 {
                     await elasticService.SendLogsBulkAsync(canliLogs, DbType.Canli);
@@ -49,7 +49,7 @@ public class LogWorker : BackgroundService
             {
                 logger.LogError(ex, "Log gönderilirken hata oluştu.");
             }
-            await Task.Delay(TimeSpan.FromMinutes(4), stoppingToken);
+            await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
         }
     }
 }
